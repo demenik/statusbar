@@ -107,8 +107,7 @@
         '';
       };
 
-      nixosModules.default = {
-        config,
+      nixosModules.statusbar = {
         lib,
         pkgs,
       }: {
