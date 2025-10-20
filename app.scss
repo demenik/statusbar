@@ -1,0 +1,180 @@
+// statusbar window
+window.statusbar {
+  min-height: 20px;
+  background-color: transparent;
+  font-size: 14px;
+}
+
+.statusbar-container {
+  background-color: var(--window-bg-color);
+  opacity: 0.9;
+
+  border-radius: 9999px;
+
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 4px;
+
+  padding: 4px 8px;
+
+  outline-style: solid;
+  outline-color: var(--border-color);
+  outline-width: 3px;
+  outline-offset: -3px;
+}
+
+// popover
+popover {
+  &> contents {
+    padding: 8px 12px;
+
+    outline-style: solid;
+    outline-color: var(--border-color);
+    outline-width: 3px;
+    outline-offset: -3px;
+  }
+
+  &> arrow {
+    background-color: var(--popover-bg-color);
+    background-image: linear-gradient(var(--border-color), var(--border-color));
+  }
+}
+
+// dialog
+.dialog {
+  padding: 8px 12px;
+  border-radius: 0px;
+}
+
+// general
+.pill {
+  border-radius: 9999px;
+}
+.rounded {
+  border-radius: 2%;
+}
+.icon, .icon * {
+  -gtk-icon-style: symbolic;
+}
+.color-icon, .color-icon * {
+  -gtk-icon-style: regular;
+}
+.title {
+  font-weight: 700;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+image.refreshing, .refreshing image {
+  animation: spin 2s linear infinite;
+}
+
+button, menubutton, togglebutton {
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  &.small, &.small > button {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  &.invisible:not(:hover), &.invisible:not(:hover) > button {
+    background-color: transparent;
+  }
+
+  &:checked, &.active {
+    outline-style: solid;
+    outline-color: var(--border-color);
+    outline-width: 2px;
+    outline-offset: -2px;
+  }
+}
+
+.hide-slider slider {
+  opacity: 0;
+}
+
+entry.invalid {
+  outline-style: solid;
+  outline-color: var(--accent-red);
+  outline-width: 2px;
+  outline-offset: -2px;
+}
+
+// workspaces
+.workspace {
+  background-color: currentColor;
+  opacity: 0.5;
+  border-radius: 9999px;
+  min-width: 8px;
+  min-height: 8px;
+  transition: min-width 0.25s ease-out;
+}
+
+.workspace.focused {
+  opacity: 1;
+  min-width: 20px;
+}
+
+// music-player
+.music {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// calendar
+.calendar {
+  min-width: 275px;
+}
+
+.calendar-weekday {
+  font-size: 14px;
+  font-weight: 800;
+
+  &.sunday {
+    color: var(--accent-color);
+  }
+}
+
+.calendar-day {
+  font-size: 14px;
+  font-weight: 600;
+
+  --fg: var(--popover-fg-color);
+  --bg: var(--popover-bg-color);
+  color: var(--fg);
+  background-color: var(--bg);
+
+  &.today {
+    background-color: var(--fg);
+    color: var(--bg);
+
+    border-radius: 4px;
+  }
+
+  &.sunday {
+    --fg: var(--accent-color);
+  }
+}
+
+// Network
+.wifi-ap {
+  border-radius: 2%;
+
+  &.hidden-ap {
+    opacity: 0.5;
+  }
+
+  &.active-ap, &.connecting-ap {
+    outline-style: solid;
+    outline-color: var(--border-color);
+    outline-width: 2px;
+    outline-offset: -2px;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "statusbar",
+  "version": "0.0.1",
+  "private": "true",
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "googleapis": "^160.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.0"
+  }
+}
