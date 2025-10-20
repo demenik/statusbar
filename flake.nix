@@ -106,5 +106,38 @@
           exit
         '';
       };
+
+      nixosModules.default = {
+        config,
+        lib,
+        pkgs,
+      }: {
+        config = {
+          environment.systemPackages = [
+            self.packages.${system}.default
+          ];
+
+          services = {
+            # required for mpris cover art
+            gvfs.enable = true;
+            # required for battery menu
+            upower.enable = true;
+            tlp.enable = true;
+          };
+
+          security.sudo-rs.extraRules = [
+            # required for battery menu
+            {
+              groups = ["tlp"];
+              commands = [
+                {
+                  command = "${lib.getExe pkgs.tlp}";
+                  options = ["SETENV" "NOPASSWD"];
+                }
+              ];
+            }
+          ];
+        };
+      };
     });
 }
