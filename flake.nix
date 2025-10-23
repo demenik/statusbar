@@ -51,7 +51,7 @@
               # required for battery menu
               (mkNoPasswdRule ["tlp"] ["${lib.getExe pkgs.tlp}"])
               # required for power menu
-              (mkNoPasswdRule ["power"] ["shutdown" "reboot"])
+              (mkNoPasswdRule ["power"] ["${lib.getExe' pkgs.systemd "shutdown"}" "${lib.getExe' pkgs.systemd "reboot"}"])
             ];
           };
         };
