@@ -37,17 +37,21 @@
               tlp.enable = true;
             };
 
-            security.sudo-rs.extraRules = [
-              # required for battery menu
-              {
-                groups = ["tlp"];
-                commands = [
-                  {
-                    command = "${lib.getExe pkgs.tlp}";
+            security.sudo-rs.extraRules = let
+              mkNoPasswdRule = groups: commands: {
+                inherit groups;
+                commands =
+                  builtins.map (command: {
+                    inherit command;
                     options = ["SETENV" "NOPASSWD"];
-                  }
-                ];
-              }
+                  })
+                  commands;
+              };
+            in [
+              # required for battery menu
+              (mkNoPasswdRule ["tlp"] ["${lib.getExe pkgs.tlp}"])
+              # required for power menu
+              (mkNoPasswdRule ["power"] ["shutdown" "reboot"])
             ];
           };
         };
@@ -58,7 +62,7 @@
     // flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
 
-      pname = "my-shell";
+      pname = "statusbar";
       version = "0.0.1";
       entry = "main.tsx";
 
@@ -85,8 +89,6 @@
 
       buildInputs = with pkgs; [
         gjs
-        watchScript
-
         brightnessctl
       ];
 
@@ -121,6 +123,11 @@
 
           runHook postInstall
         '';
+
+        postFixup = ''
+          wrapProgram $out/bin/${pname} \
+            --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.brightnessctl]}
+        '';
       };
 
       apps.default = flake-utils.lib.mkApp {
@@ -134,6 +141,7 @@
               extraPackages = astalPackages ++ extraPackages;
             })
 
+            watchScript
             pkgs.zsh
           ]
           ++ buildInputs;
