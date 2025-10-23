@@ -17,7 +17,44 @@
     flake-utils,
     ags,
   }:
-    flake-utils.lib.eachDefaultSystem (system: let
+    {
+      nixosModules = rec {
+        statusbar = {
+          lib,
+          pkgs,
+        }: {
+          config = {
+            environment.systemPackages = [
+              self.packages.${pkgs.system}.default
+            ];
+
+            services = {
+              # required for mpris cover art
+              gvfs.enable = true;
+              # required for battery menu
+              upower.enable = true;
+              tlp.enable = true;
+            };
+
+            security.sudo-rs.extraRules = [
+              # required for battery menu
+              {
+                groups = ["tlp"];
+                commands = [
+                  {
+                    command = "${lib.getExe pkgs.tlp}";
+                    options = ["SETENV" "NOPASSWD"];
+                  }
+                ];
+              }
+            ];
+          };
+        };
+
+        default = statusbar;
+      };
+    }
+    // flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
 
       pname = "my-shell";
@@ -105,42 +142,6 @@
           ${lib.getExe zsh}
           exit
         '';
-      };
-
-      nixosModules = rec {
-        statusbar = {
-          lib,
-          pkgs,
-        }: {
-          config = {
-            environment.systemPackages = [
-              self.packages.${system}.default
-            ];
-
-            services = {
-              # required for mpris cover art
-              gvfs.enable = true;
-              # required for battery menu
-              upower.enable = true;
-              tlp.enable = true;
-            };
-
-            security.sudo-rs.extraRules = [
-              # required for battery menu
-              {
-                groups = ["tlp"];
-                commands = [
-                  {
-                    command = "${lib.getExe pkgs.tlp}";
-                    options = ["SETENV" "NOPASSWD"];
-                  }
-                ];
-              }
-            ];
-          };
-        };
-
-        default = statusbar;
       };
     });
 }

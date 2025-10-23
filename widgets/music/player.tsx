@@ -7,9 +7,12 @@ import { MarqueeLabel } from "../marquee";
 
 type Props = {
   player: Mpris.Player;
+  nextPlayer: () => void;
+  prevPlayer: () => void;
+  hasOther: Accessor<boolean>;
 };
 
-export const Player = ({ player }: Props) => {
+export const Player = ({ player, nextPlayer, prevPlayer, hasOther }: Props) => {
   const playerIcon = createBinding(player, "entry").as(
     (name) => getAppIcon(name) ?? "",
   );
@@ -31,12 +34,6 @@ export const Player = ({ player }: Props) => {
     return result;
   });
 
-  const playPauseIcon = createBinding(player, "playbackStatus").as((status) =>
-    status == Mpris.PlaybackStatus.PLAYING
-      ? "media-playback-pause"
-      : "media-playback-start",
-  );
-
   return (
     <box>
       <menubutton
@@ -53,24 +50,14 @@ export const Player = ({ player }: Props) => {
           <MarqueeLabel label={label} maxWidth={200} />
         </box>
         <popover hasArrow={false}>
-          <PlayerPopup player={player} />
+          <PlayerPopup
+            player={player}
+            nextPlayer={nextPlayer}
+            prevPlayer={prevPlayer}
+            hasOther={hasOther}
+          />
         </popover>
       </menubutton>
-      <button
-        class="invisible icon"
-        iconName="media-skip-backward"
-        onClicked={() => player.previous()}
-      />
-      <button
-        class="invisible icon"
-        iconName={playPauseIcon}
-        onClicked={() => player.play_pause()}
-      />
-      <button
-        class="invisible icon"
-        iconName="media-skip-forward"
-        onClicked={() => player.next()}
-      />
     </box>
   );
 };
