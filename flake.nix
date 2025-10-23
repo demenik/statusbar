@@ -22,6 +22,7 @@
         statusbar = {
           lib,
           pkgs,
+          ...
         }: {
           config = {
             environment.systemPackages = [
