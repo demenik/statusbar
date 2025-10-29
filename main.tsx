@@ -4,7 +4,6 @@ import { Workspaces } from "./widgets/workspaces";
 import { Music } from "./widgets/music";
 import { PowerMenu } from "./widgets/power";
 import scss from "./app.scss";
-import { CpuUsage } from "./widgets/hardware/cpu";
 import { AudioSettings } from "./widgets/audio";
 import { Battery } from "./widgets/battery";
 import { Calendar } from "./widgets/calendar";
@@ -12,6 +11,9 @@ import { Network } from "./widgets/network";
 import { BrightnessSettings } from "./widgets/brightness";
 import { Tray } from "./widgets/tray";
 import { Bluetooth } from "./widgets/bluetooth";
+import { CpuUsage, CpuTemp } from "./widgets/hardware/cpu";
+import { RamUsage } from "./widgets/hardware/ram";
+import { NetworkSpeed } from "./widgets/hardware/network";
 
 app.start({
   css: scss,
@@ -29,6 +31,9 @@ app.start({
           <box $type="start" spacing={4} valign={Gtk.Align.CENTER}>
             <Workspaces />
             <CpuUsage />
+            <CpuTemp />
+            <RamUsage />
+            <NetworkSpeed />
             <Tray />
           </box>
           <box $type="center" spacing={4} valign={Gtk.Align.CENTER}>

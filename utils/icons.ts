@@ -1,3 +1,4 @@
+import app from "ags/gtk4/app";
 import { exec } from "ags/process";
 
 const appIcons: Record<string, string> = {
@@ -11,7 +12,7 @@ export const getAppIcon = (name: string): string | undefined => {
   if (result !== undefined) return result;
 
   try {
-    return exec(["bash", "-c", `scripts/find_icon.sh ${name}`]);
+    return exec(["bash", "-c", `${SRC}/scripts/find_icon.sh ${name}`]);
   } catch (_) {
     return undefined;
   }

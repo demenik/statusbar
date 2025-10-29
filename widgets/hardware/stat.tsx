@@ -7,7 +7,7 @@ type Props = {
 
 export const SystemStat = ({ icon, value }: Props) => {
   return (
-    <box spacing={4}>
+    <box spacing={2}>
       <label label={icon} />
       <label css="font-size: 14px;" label={value} />
     </box>

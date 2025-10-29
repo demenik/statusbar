@@ -9,7 +9,7 @@ window.statusbar {
   background-color: var(--window-bg-color);
   opacity: 0.9;
 
-  border-radius: 9999px;
+  border-radius: 12px;
 
   margin-left: 8px;
   margin-right: 8px;
@@ -84,7 +84,8 @@ button, menubutton, togglebutton {
     padding-right: 12px;
   }
 
-  &.invisible:not(:hover), &.invisible:not(:hover) > button {
+  &.invisible:not(:hover):not(:checked):not(.active),
+  &.invisible:not(:hover):not(:checked):not(.active) > button {
     background-color: transparent;
   }
 
@@ -97,7 +98,11 @@ button, menubutton, togglebutton {
 }
 
 .hide-slider slider {
-  opacity: 0;
+  transform: scale(0);
+  transition: transform ease-out 250ms;
+}
+.hide-slider:hover slider {
+  transform: scale(0.5);
 }
 
 entry.invalid {
@@ -114,12 +119,24 @@ entry.invalid {
   border-radius: 9999px;
   min-width: 8px;
   min-height: 8px;
-  transition: min-width 0.25s ease-out;
+  transition: min-width 250ms ease-out;
+}
+.workspace.focused {
+  animation: workspace-switch 250ms ease-out forwards;
+  min-width: 20px;
 }
 
-.workspace.focused {
-  opacity: 1;
-  min-width: 20px;
+@keyframes workspace-switch {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1.0);
+    opacity: 1.0;
+  }
 }
 
 // music-player

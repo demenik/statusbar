@@ -69,7 +69,7 @@
       watchScript = pkgs.writeShellScriptBin "watch" ''
         set -euo pipefail
 
-        export FILES=$(find . -not \( -path "./node_modules*" -o -path "./@girs*" \) -type f -name "*.ts*")
+        export FILES=$(find . -not \( -path "./node_modules*" -o -path "./@girs*" -o -path "./.git*" \) -type f)
         echo "$FILES" | ${pkgs.lib.getExe pkgs.entr} -crs 'echo "Change detected, restarting..." && ags run ./main.tsx'
       '';
 
@@ -124,9 +124,9 @@
           runHook postInstall
         '';
 
-        postFixup = ''
+        postFixup = with pkgs; ''
           wrapProgram $out/bin/${pname} \
-            --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.brightnessctl]}
+            --prefix PATH : ${lib.makeBinPath [brightnessctl bash]}
         '';
       };
 
