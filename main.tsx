@@ -30,10 +30,12 @@ app.start({
         <centerbox class="statusbar-container">
           <box $type="start" spacing={4} valign={Gtk.Align.CENTER}>
             <Workspaces />
-            <CpuUsage />
-            <CpuTemp />
-            <RamUsage />
-            <NetworkSpeed />
+            <box spacing={8}>
+              <CpuUsage />
+              <CpuTemp />
+              <RamUsage />
+              <NetworkSpeed />
+            </box>
             <Tray />
           </box>
           <box $type="center" spacing={4} valign={Gtk.Align.CENTER}>

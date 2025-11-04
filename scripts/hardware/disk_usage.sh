@@ -25,5 +25,5 @@ echo "$R_BPS $W_BPS" | awk '{
   if (w > 1024) { w/=1024; unit_w="MB/s" }
   if (w > 1024) { w/=1024; unit_w="GB/s" }
 
-  printf " %.0f%s  %.0f%s", r, unit_r, w, unit_w
+  printf "%.0f%s %.0f%s", r, unit_r, w, unit_w
 }'

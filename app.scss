@@ -11,16 +11,21 @@ window.statusbar {
 
   border-radius: 12px;
 
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-top: 4px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
 
   padding: 4px 8px;
 
   outline-style: solid;
   outline-color: var(--border-color);
-  outline-width: 3px;
-  outline-offset: -3px;
+  outline-width: 2px;
+  outline-offset: -2px;
+
+  transition: outline-color ease-out 250ms;
+}
+window.statusbar:hover > .statusbar-container {
+  outline-color: var(--accent-bg-color);
 }
 
 // popover

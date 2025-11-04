@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const NetworkSpeed = ({ pollingInterval = 5000 }: Props) => {
-  const value = createPoll(" 0B/s  0B/s", pollingInterval, () =>
+  const value = createPoll("0B/s 0B/s", pollingInterval, () =>
     execAsync([
       "bash",
       "-c",
@@ -16,7 +16,7 @@ export const NetworkSpeed = ({ pollingInterval = 5000 }: Props) => {
       .then((usage) => usage)
       .catch((err) => {
         console.error(err);
-        return " 0B/s  0B/s";
+        return "0B/s 0B/s";
       }),
   );
 
