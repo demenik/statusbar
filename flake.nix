@@ -62,7 +62,7 @@
     // flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
 
-      pname = "statusbar";
+      name = "statusbar";
       version = "0.0.1";
       entry = "main.tsx";
 
@@ -98,8 +98,7 @@
       ];
     in {
       packages.default = pkgs.stdenv.mkDerivation {
-        name = pname;
-        inherit version;
+        inherit name version;
         src = ./.;
 
         nativeBuildInputs = with pkgs; [
@@ -119,13 +118,13 @@
           mkdir -p $out/bin
           mkdir -p $out/share
           cp -r * $out/share
-          ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
+          ags bundle ${entry} $out/bin/${name} -d "SRC='$out/share'"
 
           runHook postInstall
         '';
 
         postFixup = with pkgs; ''
-          wrapProgram $out/bin/${pname} \
+          wrapProgram $out/bin/${name} \
             --prefix PATH : ${lib.makeBinPath [brightnessctl bash]}
         '';
       };
