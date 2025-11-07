@@ -1,9 +1,7 @@
 import Mpris from "gi://AstalMpris";
-import { createBinding, createComputed, createState, For, With } from "ags";
+import { createBinding, createComputed, createState, With } from "ags";
 import { Player } from "./player";
 import { PlayerControls } from "./controls";
-import { getAppIcon } from "../../utils/icons";
-import { Gtk } from "ags/gtk4";
 
 const createPlayersBinding = (mpris: Mpris.Mpris) => {
   const _players = createBinding(mpris, "players");
@@ -19,16 +17,23 @@ const createPlayersBinding = (mpris: Mpris.Mpris) => {
   _players.subscribe(() => {
     disposeFuncs.forEach((dispose) => dispose());
 
-    disposeFuncs = players.get().map((player) =>
+    setPlayers(
+      _players
+        .get()
+        .filter(
+          (player) => player.playbackStatus !== Mpris.PlaybackStatus.STOPPED,
+        ),
+    );
+
+    disposeFuncs = _players.get().map((player) =>
       createBinding(player, "playbackStatus").subscribe(() => {
-        setPlayers(
-          _players
-            .get()
-            .filter(
-              (player) =>
-                player.playbackStatus !== Mpris.PlaybackStatus.STOPPED,
-            ),
-        );
+        if (player.playbackStatus === Mpris.PlaybackStatus.STOPPED) {
+          setPlayers((players) =>
+            players.filter((p) => p.identity !== player.identity),
+          );
+        } else {
+          setPlayers((players) => [...players, player]);
+        }
       }),
     );
   });
