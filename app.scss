@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // statusbar window
 window.statusbar {
   min-height: 20px;
@@ -6,8 +8,7 @@ window.statusbar {
 }
 
 .statusbar-container {
-  background-color: var(--window-bg-color);
-  opacity: 0.9;
+  background-color: color-mix(in srgb, var(--window-bg-color) 95%, transparent);
 
   border-radius: 12px;
 
@@ -32,16 +33,27 @@ window.statusbar:hover > .statusbar-container {
 popover {
   &> contents {
     padding: 8px 12px;
+    margin-top: 2px;
 
     outline-style: solid;
-    outline-color: var(--border-color);
-    outline-width: 3px;
-    outline-offset: -3px;
+    outline-color: var(--accent-bg-color);
+    outline-width: 2px;
+    outline-offset: -2px;
+
+    background-color: color-mix(in srgb, var(--window-bg-color) 95%, transparent);
   }
 
-  &> arrow {
-    background-color: var(--popover-bg-color);
-    background-image: linear-gradient(var(--border-color), var(--border-color));
+  &:not(.left):not(.right):not(.top) > contents {
+    margin-top: 2px;
+  }
+  &.left > contents {
+    margin-right: 11px;
+  }
+  &.right > contents {
+    margin-left: 11px;
+  }
+  &.top > contents {
+    margin-bottom: 2px;
   }
 }
 
@@ -84,6 +96,8 @@ button, menubutton, togglebutton {
   padding-top: 2px;
   padding-bottom: 2px;
 
+  transition: color background-color 300ms ease-out;
+
   &.small, &.small > button {
     padding-left: 12px;
     padding-right: 12px;
@@ -95,10 +109,12 @@ button, menubutton, togglebutton {
   }
 
   &:checked, &.active {
-    outline-style: solid;
-    outline-color: var(--border-color);
-    outline-width: 2px;
-    outline-offset: -2px;
+    background-color: var(--accent-bg-color);
+    color: var(--window-bg-color);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--accent-bg-color) 90%, black);
+    }
   }
 }
 
@@ -119,8 +135,7 @@ entry.invalid {
 
 // workspaces
 .workspace {
-  background-color: currentColor;
-  opacity: 0.5;
+  background-color: color-mix(in srgb, var(--accent-bg-color) 50%, transparent);
   border-radius: 9999px;
   min-width: 8px;
   min-height: 8px;
@@ -129,6 +144,7 @@ entry.invalid {
 .workspace.focused {
   animation: workspace-switch 250ms ease-out forwards;
   min-width: 20px;
+  background-color: var(--accent-bg-color);
 }
 
 @keyframes workspace-switch {

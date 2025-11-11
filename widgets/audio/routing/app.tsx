@@ -1,5 +1,5 @@
 import Wp from "gi://AstalWp?version=0.1";
-import { createBinding, With } from "gnim";
+import { createBinding, With } from "ags";
 import { Gtk } from "ags/gtk4";
 import { getAppIcon } from "../../../utils/icons";
 import { VolumeSliderNode } from "../slider";

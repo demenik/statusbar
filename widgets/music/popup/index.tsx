@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import Mpris from "gi://AstalMpris?version=0.1";
-import { Accessor, createBinding, With } from "gnim";
+import { Accessor, createBinding, With } from "ags";
 import { getAppIcon } from "../../../utils/icons";
 import { MarqueeLabel } from "../../marquee";
 import { MusicPopupControls } from "./controls";

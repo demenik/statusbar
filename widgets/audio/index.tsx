@@ -24,7 +24,7 @@ export const AudioSettings = () => {
 
   return (
     <menubutton class="invisible icon" iconName={icon}>
-      <popover hasArrow={false} css="min-width: 400px;">
+      <popover css="min-width: 400px;">
         <box orientation={Gtk.Orientation.VERTICAL} spacing={8}>
           <MicrophoneSettings audio={audio} />
           <HSeparator />

@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import Wp from "gi://AstalWp?version=0.1";
-import { createBinding, For } from "gnim";
+import { createBinding, For } from "ags";
 import { AppRoutingApp } from "./app";
 
 type Props = {

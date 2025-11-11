@@ -19,7 +19,6 @@ export const flattenAccessor = <T>(
   accessor: Accessor<Accessor<T>>,
 ): Accessor<T> => {
   const get = () => accessor.get().get();
-
   const subscribe: SubscribeFunction = (callback) => {
     let disposeInner: DisposeFunction | undefined;
 

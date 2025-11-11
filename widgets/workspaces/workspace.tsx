@@ -1,4 +1,4 @@
-import { Accessor } from "gnim";
+import { Accessor } from "ags";
 
 type Props = {
   isFocused: Accessor<boolean>;

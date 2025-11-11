@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import AstalBattery from "gi://AstalBattery";
-import { createBinding } from "gnim";
+import { createBinding } from "ags";
 import { BatteryPopup } from "./popup";
 
 export const Battery = () => {

@@ -141,15 +141,8 @@
             })
 
             watchScript
-            pkgs.zsh
           ]
           ++ buildInputs;
-
-        shellHook = with pkgs; ''
-          export SHELL="${lib.getExe zsh}"
-          ${lib.getExe zsh}
-          exit
-        '';
       };
     });
 }

@@ -16,7 +16,7 @@ export const BrightnessSettings = () => {
   return (
     <menubutton class="invisible">
       <image iconName={icon} />
-      <popover css="min-width: 400px;" hasArrow={false}>
+      <popover hasArrow={false} css="min-width: 400px;">
         <box orientation={Gtk.Orientation.VERTICAL} spacing={8}>
           <box spacing={4}>
             <image iconName="computer-laptop-symbolic" />

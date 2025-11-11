@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import Wp from "gi://AstalWp?version=0.1";
-import { createBinding, With } from "gnim";
+import { createBinding, With } from "ags";
 import { createDropDown } from "../../utils/createDropdown";
 import { VolumeSliderEndpoint } from "./slider";
 import { constantAccessor, flattenAccessor } from "../../utils/accessor";

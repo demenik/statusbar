@@ -12,7 +12,7 @@ export const Workspaces = () => {
   const focused = createBinding(hyprland, "focusedWorkspace");
 
   return (
-    <button class="workspaces small pill invisible">
+    <button class="workspaces small invisible">
       <box spacing={5} valign={Gtk.Align.CENTER}>
         <For each={workspaces}>
           {(w) => <Workspace isFocused={focused.as((f) => f.id == w.id)} />}

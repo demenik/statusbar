@@ -63,7 +63,7 @@ export const BluetoothDevice = ({ device }: Props) => {
         <image iconName={connectionIcon} iconSize={Gtk.IconSize.NORMAL} />
         <image iconName={battery} iconSize={Gtk.IconSize.NORMAL} />
       </box>
-      <popover hasArrow={false}>
+      <popover class="left" hasArrow={false}>
         <BTDeviceDetails device={device} />
       </popover>
     </menubutton>
