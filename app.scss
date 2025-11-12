@@ -135,7 +135,7 @@ entry.invalid {
 
 // workspaces
 .workspace {
-  background-color: color-mix(in srgb, var(--accent-bg-color) 50%, transparent);
+  background-color: color-mix(in srgb, currentColor 50%, transparent);
   border-radius: 9999px;
   min-width: 8px;
   min-height: 8px;
@@ -144,7 +144,7 @@ entry.invalid {
 .workspace.focused {
   animation: workspace-switch 250ms ease-out forwards;
   min-width: 20px;
-  background-color: var(--accent-bg-color);
+  background-color: currentColor;
 }
 
 @keyframes workspace-switch {
