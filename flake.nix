@@ -26,7 +26,7 @@
         }: {
           config = {
             environment.systemPackages = [
-              self.packages.${pkgs.system}.default
+              self.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
 
             services = {
@@ -115,10 +115,10 @@
         installPhase = ''
           runHook preInstall
 
-          mkdir -p $out/bin
-          mkdir -p $out/share
-          cp -r * $out/share
-          ags bundle ${entry} $out/bin/${name} -d "SRC='$out/share'"
+          mkdir -p "$out"/bin
+          mkdir -p "$out"/share
+          cp -r * "$out"/share
+          ags bundle "${entry}" "$out"/bin/"${name}" -d "SRC='$out/share'"
 
           runHook postInstall
         '';
