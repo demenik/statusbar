@@ -1,5 +1,5 @@
 import app from "ags/gtk4/app";
-import { Astal, Gtk } from "ags/gtk4";
+import { Astal, Gdk, Gtk } from "ags/gtk4";
 import { Workspaces } from "./widgets/workspaces";
 import { Music } from "./widgets/music";
 import { PowerMenu } from "./widgets/power";
@@ -15,43 +15,77 @@ import { CpuUsage, CpuTemp } from "./widgets/hardware/cpu";
 import { RamUsage } from "./widgets/hardware/ram";
 import { NetworkSpeed } from "./widgets/hardware/network";
 
+const App = (monitor: Gdk.Monitor) => {
+  const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
+
+  return (
+    <window
+      visible
+      class="statusbar"
+      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      anchor={TOP | LEFT | RIGHT}
+    >
+      <centerbox class="statusbar-container">
+        <box $type="start" spacing={4} valign={Gtk.Align.CENTER}>
+          <Workspaces />
+          <box spacing={8}>
+            <CpuUsage />
+            <CpuTemp />
+            <RamUsage />
+            <NetworkSpeed />
+          </box>
+          <Tray />
+        </box>
+        <box $type="center" spacing={4} valign={Gtk.Align.CENTER}>
+          <Music />
+        </box>
+        <box $type="end" spacing={4} valign={Gtk.Align.CENTER}>
+          <BrightnessSettings />
+          <Battery />
+          <AudioSettings />
+          <Bluetooth />
+          <Network />
+          <PowerMenu />
+          <Calendar />
+        </box>
+      </centerbox>
+    </window>
+  ) as unknown as Gtk.Window;
+};
+
 app.start({
   css: scss,
   main() {
-    const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
+    const display = Gdk.Display.get_default();
+    if (!display) return;
 
-    return (
-      <window
-        visible
-        class="statusbar"
-        exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={TOP | LEFT | RIGHT}
-      >
-        <centerbox class="statusbar-container">
-          <box $type="start" spacing={4} valign={Gtk.Align.CENTER}>
-            <Workspaces />
-            <box spacing={8}>
-              <CpuUsage />
-              <CpuTemp />
-              <RamUsage />
-              <NetworkSpeed />
-            </box>
-            <Tray />
-          </box>
-          <box $type="center" spacing={4} valign={Gtk.Align.CENTER}>
-            <Music />
-          </box>
-          <box $type="end" spacing={4} valign={Gtk.Align.CENTER}>
-            <BrightnessSettings />
-            <Battery />
-            <AudioSettings />
-            <Bluetooth />
-            <Network />
-            <PowerMenu />
-            <Calendar />
-          </box>
-        </centerbox>
-      </window>
-    );
+    const bars = new Map<Gdk.Monitor, Gtk.Window>();
+
+    const syncMonitors = () => {
+      const monitorList = display.get_monitors();
+      const n = monitorList.get_n_items();
+
+      const activeMonitors = new Set<Gdk.Monitor>();
+      for (let i = 0; i < n; i++) {
+        activeMonitors.add(monitorList.get_item(i) as Gdk.Monitor);
+      }
+
+      for (const [monitor, win] of bars) {
+        if (!activeMonitors.has(monitor)) {
+          win.close();
+          bars.delete(monitor);
+        }
+      }
+
+      for (const monitor of activeMonitors) {
+        if (!bars.has(monitor)) {
+          const bar = App(monitor);
+          bars.set(monitor, bar);
+        }
+      }
+    };
+
+    display.get_monitors().connect("items-changed", syncMonitors);
+    syncMonitors();
   },
 });
