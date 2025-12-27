@@ -1,5 +1,5 @@
 import AstalNetwork from "gi://AstalNetwork";
-import { createBinding, With } from "ags";
+import { createBinding } from "ags";
 import { WiredSettings } from "./wired";
 import { WifiSettings } from "./wifi";
 import { constantAccessor, flattenAccessor } from "../../utils/accessor";
