@@ -15,7 +15,9 @@ import { CpuUsage, CpuTemp } from "./widgets/hardware/cpu";
 import { RamUsage } from "./widgets/hardware/ram";
 import { NetworkSpeed } from "./widgets/hardware/network";
 
-const App = (monitor: Gdk.Monitor) => {
+const PREFERRED_MONITORS = ["eDP-1", "HDMI-A-1"];
+
+const App = (monitor: number) => {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
   return (
@@ -24,6 +26,7 @@ const App = (monitor: Gdk.Monitor) => {
       class="statusbar"
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
       anchor={TOP | LEFT | RIGHT}
+      monitor={monitor}
     >
       <centerbox class="statusbar-container">
         <box $type="start" spacing={4} valign={Gtk.Align.CENTER}>
@@ -59,29 +62,38 @@ app.start({
     const display = Gdk.Display.get_default();
     if (!display) return;
 
-    const bars = new Map<Gdk.Monitor, Gtk.Window>();
+    const bars = new Map<number, Gtk.Window>();
 
     const syncMonitors = () => {
       const monitorList = display.get_monitors();
       const n = monitorList.get_n_items();
+      if (n === 0) return;
 
-      const activeMonitors = new Set<Gdk.Monitor>();
+      const monitors: Gdk.Monitor[] = [];
       for (let i = 0; i < n; i++) {
-        activeMonitors.add(monitorList.get_item(i) as Gdk.Monitor);
+        monitors.push(monitorList.get_item(i) as Gdk.Monitor);
       }
 
-      for (const [monitor, win] of bars) {
-        if (!activeMonitors.has(monitor)) {
+      let mainMonitorIndex = 0;
+      for (const name of PREFERRED_MONITORS) {
+        const index = monitors.findIndex((m) => m.connector === name);
+        if (index) {
+          mainMonitorIndex = index;
+          console.log(`Found preferred monitor: ${name}`);
+          break;
+        }
+      }
+
+      for (const [index, win] of bars) {
+        if (index !== mainMonitorIndex) {
           win.close();
-          bars.delete(monitor);
+          bars.delete(index);
         }
       }
 
-      for (const monitor of activeMonitors) {
-        if (!bars.has(monitor)) {
-          const bar = App(monitor);
-          bars.set(monitor, bar);
-        }
+      if (!bars.has(mainMonitorIndex)) {
+        const bar = App(mainMonitorIndex);
+        bars.set(mainMonitorIndex, bar);
       }
     };
 
