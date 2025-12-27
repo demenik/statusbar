@@ -30,10 +30,16 @@ export const Network = () => {
       <popover hasArrow={false}>
         <box orientation={Gtk.Orientation.VERTICAL} spacing={8}>
           <WiredSettings wired={network.wired} />
-          <HSeparator />
-          <WifiSettings wifi={network.wifi} />
-          <HSeparator />
-          <WifiConnect wifi={network.wifi} />
+          {network.wifi !== null ? (
+            <>
+              <HSeparator />
+              <WifiSettings wifi={network.wifi} />
+              <HSeparator />
+              <WifiConnect wifi={network.wifi} />
+            </>
+          ) : (
+            <></>
+          )}
         </box>
       </popover>
     </menubutton>
