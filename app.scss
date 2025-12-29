@@ -112,6 +112,14 @@ button, menubutton, togglebutton {
     background-color: var(--accent-bg-color);
     color: var(--window-bg-color);
 
+    > * {
+      image {
+        -gtk-icon-effect: none;
+        filter: drop-shadow(3000px 0 0 var(--window-bg-color));
+        transform: translateX(-3000px);
+      }
+    }
+
     &:hover {
       background-color: color-mix(in srgb, var(--accent-bg-color) 90%, black);
     }

@@ -7,6 +7,7 @@ type Props = {
 export const TrayIcon = ({ item }: Props) => {
   return (
     <image
+      class="icon"
       $={(self) => {
         const update = () => {
           if (item.iconPixbuf) {
