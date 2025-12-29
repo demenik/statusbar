@@ -1,22 +1,13 @@
 import AstalTray from "gi://AstalTray";
-import { createBinding, With } from "ags";
+import { createBinding } from "ags";
 import { Gdk, Gtk } from "ags/gtk4";
+import { TrayIcon } from "./icon";
 
 type Props = {
   item: AstalTray.TrayItem;
 };
 
 export const TrayItem = ({ item }: Props) => {
-  const iconName = createBinding(item, "iconName");
-  const imageIconName = iconName.as((value) =>
-    Gtk.Image.new_from_icon_name(value),
-  );
-
-  const iconPixbuf = createBinding(item, "iconPixbuf");
-  const imagePixbuf = iconPixbuf.as((value) =>
-    Gtk.Image.new_from_pixbuf(value),
-  );
-
   const tooltip = createBinding(item, "tooltipMarkup");
 
   const getPosition = (self: Gtk.Widget) => {
@@ -74,11 +65,7 @@ export const TrayItem = ({ item }: Props) => {
         self.add_controller(gesture);
       }}
     >
-      {iconName.get() === null ? (
-        <With value={imagePixbuf}>{(value) => value}</With>
-      ) : (
-        <With value={imageIconName}>{(value) => value}</With>
-      )}
+      <TrayIcon item={item} />
     </button>
   );
 };
