@@ -1,5 +1,5 @@
 import AstalTray from "gi://AstalTray?version=0.1";
-import { createBinding, With } from "ags";
+import { createBinding } from "ags";
 import { TrayIcon } from "./icon";
 
 type Props = {
@@ -8,7 +8,6 @@ type Props = {
 
 export const TrayMenuItem = ({ item }: Props) => {
   const tooltip = createBinding(item, "tooltipMarkup");
-
   const menuModel = createBinding(item, "menuModel");
 
   return (
