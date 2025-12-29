@@ -113,7 +113,7 @@ button, menubutton, togglebutton {
     color: var(--window-bg-color);
 
     > * {
-      image {
+      image:not(.color-icon) {
         -gtk-icon-effect: none;
         filter: drop-shadow(3000px 0 0 var(--window-bg-color));
         transform: translateX(-3000px);
