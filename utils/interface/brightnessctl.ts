@@ -1,4 +1,4 @@
-import { execAsync } from "ags/process";
+import { exec, execAsync } from "ags/process";
 import { createPoll } from "ags/time";
 import { stateFromAccessor } from "../accessor";
 
@@ -17,6 +17,12 @@ export const createBrightness = ({
   interval = 30 * 1000,
 }: BrightnessProps) => {
   const filter = clazz ? `c ${clazz}` : `d ${device!}`;
+
+  try {
+    exec(`brightnessctl -${filter} info`);
+  } catch (e) {
+    return [null, null] as const;
+  }
 
   const [percent, setPercent] = stateFromAccessor(
     createPoll(1, interval, () =>
