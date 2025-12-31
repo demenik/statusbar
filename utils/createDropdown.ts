@@ -50,7 +50,7 @@ export const createDropDown = <T>({
     }
     currentEntries.forEach((entry) => model.append(entry.label));
 
-    updateSelection(isAccessor(selected) ? selected.get() : selected);
+    updateSelection(isAccessor(selected) ? selected() : selected);
     ignoreCallback = false;
   };
 
@@ -63,16 +63,16 @@ export const createDropDown = <T>({
   });
 
   if (isAccessor(entries)) {
-    updateModel(entries.get());
-    entries.subscribe(() => updateModel(entries.get()));
+    updateModel(entries());
+    entries.subscribe(() => updateModel(entries()));
   } else {
     updateModel(entries);
   }
 
   if (selected !== undefined) {
     if (isAccessor(selected)) {
-      updateSelection(selected.get());
-      selected.subscribe(() => updateSelection(selected.get()));
+      updateSelection(selected());
+      selected.subscribe(() => updateSelection(selected()));
     } else {
       updateSelection(selected);
     }

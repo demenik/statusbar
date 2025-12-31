@@ -15,7 +15,7 @@ export const CavaVisualizer = (
   const minBarHeight = 2;
 
   const draw: Gtk.DrawingAreaDrawFunc = (self, cr, w, h) => {
-    const vals = values.get();
+    const vals = values();
     if (!vals || vals.length === 0) return;
     const barWidth = (w - (vals.length - 1) * barSpacing) / vals.length;
 

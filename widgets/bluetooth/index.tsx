@@ -10,9 +10,9 @@ export const Bluetooth = () => {
 
   const isPowered = createBinding(bluetooth, "isPowered");
   const isConnected = createBinding(bluetooth, "isConnected");
-  const iconName = createComputed((get) => {
-    const powered = get(isPowered);
-    const connected = get(isConnected);
+  const iconName = createComputed(() => {
+    const powered = isPowered();
+    const connected = isConnected();
 
     if (powered && connected) return "bluetooth-active-symbolic";
     else if (powered && !connected) return "bluetooth-symbolic";

@@ -163,12 +163,12 @@ export const FadeBox = ({
 
           if (isAccessor(fadeWidth)) {
             fadeWidth.subscribe(() => {
-              self.fadeWidth = fadeWidth.get();
+              self.fadeWidth = fadeWidth();
             });
           }
           if (isAccessor(fadeSides)) {
             fadeSides.subscribe(() => {
-              self.fadeSides = fadeSides.get();
+              self.fadeSides = fadeSides();
             });
           }
         }}

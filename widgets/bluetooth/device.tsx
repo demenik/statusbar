@@ -25,17 +25,17 @@ export const BluetoothDevice = ({ device }: Props) => {
 
   const isConnected = createBinding(device, "connected");
   const isConnecting = createBinding(device, "connecting");
-  const connectionIcon = createComputed((get) => {
-    if (get(isConnected)) return "network-wireless-connected-symbolic";
-    else if (get(isConnecting)) return "network-wireless-acquiring-symbolic";
-    else return get(rssi);
+  const connectionIcon = createComputed(() => {
+    if (isConnected()) return "network-wireless-connected-symbolic";
+    else if (isConnecting()) return "network-wireless-acquiring-symbolic";
+    else return rssi();
   });
 
   const isBlocked = createBinding(device, "blocked");
   const isTrusted = createBinding(device, "trusted");
-  const trustIcon = createComputed((get) => {
-    if (get(isBlocked)) return "bluetooth-disabled-symbolic";
-    else if (get(isTrusted)) return "emblem-ok-symbolic";
+  const trustIcon = createComputed(() => {
+    if (isBlocked()) return "bluetooth-disabled-symbolic";
+    else if (isTrusted()) return "emblem-ok-symbolic";
     else return null;
   });
 

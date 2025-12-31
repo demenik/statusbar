@@ -4,7 +4,7 @@ import GObject from "gnim/gobject";
 export const isAccessor = <T>(value: unknown): value is Accessor<T> => {
   return (
     !!value &&
-    typeof (value as Accessor<T>).get === "function" &&
+    typeof (value as Accessor<T>).peek === "function" &&
     typeof (value as Accessor<T>).as === "function" &&
     typeof (value as Accessor<T>).subscribe === "function"
   );
@@ -18,13 +18,13 @@ type SubscribeFunction = (callback: SubscribeCallback) => DisposeFunction;
 export const flattenAccessor = <T>(
   accessor: Accessor<Accessor<T>>,
 ): Accessor<T> => {
-  const get = () => accessor.get().get();
+  const get = () => accessor()();
   const subscribe: SubscribeFunction = (callback) => {
     let disposeInner: DisposeFunction | undefined;
 
     const resubscribeToInner = () => {
       disposeInner?.();
-      const innerAccessor = accessor.get();
+      const innerAccessor = accessor();
       disposeInner = innerAccessor.subscribe(() => callback());
       callback();
     };
@@ -46,7 +46,7 @@ export const createOptionalBinding = <
   K extends keyof T,
 >(
   object: T | undefined,
-  key: Extract<K, string>,
+  key: Exclude<Extract<K, string>, "$signals">,
 ): Accessor<T[K]> | Accessor<undefined> => {
   if (object !== undefined) {
     return createBinding(object, key);
@@ -77,7 +77,7 @@ export function getOptionalAccessor<T>(
   value: OptionalAccessor<T>,
   fallback?: T,
 ): T | typeof fallback {
-  if (isAccessor(value)) return value.get();
+  if (isAccessor(value)) return value();
   else if (value === undefined && fallback !== undefined) return fallback;
   else return value;
 }
@@ -99,12 +99,11 @@ export const joinClasses = <T extends string | string[]>(
   if (classes.find((e) => isAccessor(e)) !== undefined) {
     if (typeof getOptionalAccessor(classes[0]) === "string") {
       return createComputed(
-        (get) =>
-          classes.map((e) => (isAccessor(e) ? get(e)! : e!)).join(" ") as T,
+        () => classes.map((e) => (isAccessor(e) ? e()! : e!)).join(" ") as T,
       );
     } else {
       return createComputed(
-        (get) => classes.flatMap((e) => (isAccessor(e) ? get(e)! : e!)) as T,
+        () => classes.flatMap((e) => (isAccessor(e) ? e()! : e!)) as T,
       );
     }
   } else {
@@ -117,10 +116,10 @@ export const joinClasses = <T extends string | string[]>(
 };
 
 export const stateFromAccessor = <T>(accessor: Accessor<T>) => {
-  const [state, setState] = createState(accessor.get());
+  const [state, setState] = createState(accessor());
 
   accessor.subscribe(() => {
-    setState(accessor.get());
+    setState(accessor());
   });
 
   return [state, setState] as const;

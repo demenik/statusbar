@@ -24,35 +24,33 @@ type Props = {
 };
 
 export const MonthCalendar = ({ today }: Props) => {
-  const [date, setDate] = createState(today.get());
-  const dateOrToday = createComputed((get) => `${get(date)}, ${get(today)}`);
+  const [date, setDate] = createState(today());
+  const dateOrToday = createComputed(() => `${date()}, ${today()}`);
 
-  const prevMonth = () => setDate(date.get().add_months(-1)!);
-  const nextMonth = () => setDate(date.get().add_months(1)!);
+  const prevMonth = () => setDate(date().add_months(-1)!);
+  const nextMonth = () => setDate(date().add_months(1)!);
 
   const setMonth = (month: number) =>
     setDate(
       GLib.DateTime.new_local(
-        date.get().get_year(),
+        date().get_year(),
         month,
-        date.get().get_day_of_month(),
+        date().get_day_of_month(),
         0,
         0,
         0,
       ),
     );
 
-  const [yearInput, setYearInput] = createState(
-    date.get().get_year().toString(),
-  );
+  const [yearInput, setYearInput] = createState(date().get_year().toString());
   const yearInputValid = yearInput.as((year) => isValidYear(year));
   yearInputValid.subscribe(() => {
-    if (yearInputValid.get()) {
+    if (yearInputValid()) {
       setDate(
         GLib.DateTime.new_local(
-          parseInt(yearInput.get()),
-          date.get().get_month(),
-          date.get().get_day_of_month(),
+          parseInt(yearInput()),
+          date().get_month(),
+          date().get_day_of_month(),
           0,
           0,
           0,
@@ -105,8 +103,8 @@ export const MonthCalendar = ({ today }: Props) => {
               self.remove(child);
             }
 
-            const year = date.get().get_year();
-            const month = date.get().get_month();
+            const year = date().get_year();
+            const month = date().get_month();
 
             for (let i = 0; i < 7; i++) {
               const isSunday = i === 6;
@@ -125,8 +123,8 @@ export const MonthCalendar = ({ today }: Props) => {
               );
             }
 
-            const daysInMonth = getDaysInMonth(date.get());
-            const firstDayOfMonth = getFirstDayOfMonth(date.get());
+            const daysInMonth = getDaysInMonth(date());
+            const firstDayOfMonth = getFirstDayOfMonth(date());
 
             let day = 1;
             for (let row = 1; row <= 6; row++) {
@@ -135,14 +133,14 @@ export const MonthCalendar = ({ today }: Props) => {
                   continue;
 
                 const isCurrent =
-                  day === date.get().get_day_of_month() &&
-                  month === date.get().get_month() &&
-                  year === date.get().get_year();
+                  day === date().get_day_of_month() &&
+                  month === date().get_month() &&
+                  year === date().get_year();
 
                 const isToday =
-                  day === today.get().get_day_of_month() &&
-                  month === today.get().get_month() &&
-                  year === today.get().get_year();
+                  day === today().get_day_of_month() &&
+                  month === today().get_month() &&
+                  year === today().get_year();
 
                 const isSunday = col === 7;
 
@@ -159,8 +157,8 @@ export const MonthCalendar = ({ today }: Props) => {
                 dayLabel.connect("clicked", (self) =>
                   setDate(
                     GLib.DateTime.new_local(
-                      date.get().get_year(),
-                      date.get().get_month(),
+                      date().get_year(),
+                      date().get_month(),
                       parseInt(self.label),
                       0,
                       0,

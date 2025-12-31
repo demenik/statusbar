@@ -28,12 +28,12 @@ export const WifiAP = ({ ap, activeAp }: Props) => {
   const ssid = createBinding(ap, "ssid");
   const hidden = ssid.as((ssid) => !ssid);
   const active = activeAp.as((active) => active.bssid == ap.bssid);
-  const classes = createComputed((get) => {
+  const classes = createComputed(() => {
     const classes = ["wifi-ap"];
 
-    if (get(hidden)) classes.push("hidden-ap");
-    if (get(active)) classes.push("active-ap");
-    if (get(connecting)) classes.push("connecting-ap");
+    if (hidden()) classes.push("hidden-ap");
+    if (active()) classes.push("active-ap");
+    if (connecting()) classes.push("connecting-ap");
 
     return classes;
   });
@@ -49,7 +49,7 @@ export const WifiAP = ({ ap, activeAp }: Props) => {
       cssClasses={classes}
     >
       <button
-        onClicked={() => setConnecting(!connecting.get())}
+        onClicked={() => setConnecting(!connecting())}
         halign={Gtk.Align.FILL}
         class="invisible"
         css="min-width: 250px;"

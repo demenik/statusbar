@@ -193,15 +193,15 @@ export const MusicPopupCoverArt = ({ artUrl, ...props }: Props) => {
   return (
     <_ShaderWidget
       $={(self) => {
-        self.artUrl = artUrl.get();
-        self.blur = blur.get();
-        self.zoom = zoom.get();
-        self.brightness = brightness.get();
+        self.artUrl = artUrl();
+        self.blur = blur();
+        self.zoom = zoom();
+        self.brightness = brightness();
 
-        artUrl.subscribe(() => (self.artUrl = artUrl.get()));
-        blur.subscribe(() => (self.blur = blur.get()));
-        zoom.subscribe(() => (self.zoom = zoom.get()));
-        brightness.subscribe(() => (self.brightness = brightness.get()));
+        artUrl.subscribe(() => (self.artUrl = artUrl()));
+        blur.subscribe(() => (self.blur = blur()));
+        zoom.subscribe(() => (self.zoom = zoom()));
+        brightness.subscribe(() => (self.brightness = brightness()));
       }}
       {...props}
     />

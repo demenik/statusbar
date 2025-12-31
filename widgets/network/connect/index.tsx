@@ -13,9 +13,9 @@ export const WifiConnect = ({ wifi }: Props) => {
   const [accessPoints, setAccessPoints] = stateFromAccessor(
     createBinding(wifi, "accessPoints"),
   );
-  const sortedAPs = createComputed((get) => {
-    const bssid = get(activeAp).bssid;
-    const aps = get(accessPoints);
+  const sortedAPs = createComputed(() => {
+    const bssid = activeAp().bssid;
+    const aps = accessPoints();
 
     return aps.sort((a, b) => {
       if (a.bssid == bssid) return -99999;

@@ -15,7 +15,7 @@ export const WifiSettings = ({ wifi }: Props) => {
   const speed = createBinding(wifi, "bandwidth").as(
     (speed) => `${speed.toFixed(0)}Mbit/s`,
   );
-  const stateLabel = createComputed((get) => `${get(state)}, ${get(speed)}`);
+  const stateLabel = createComputed(() => `${state()}, ${speed()}`);
 
   const internet = createBinding(wifi, "internet");
   const internetIcon = internet.as(getInternetIcon);

@@ -25,14 +25,14 @@ export const WifiAPConnect = ({ ap, close: _close }: Props) => {
   const notFailed = state.as((state) => state !== ConnectingState.FAILED);
 
   const connect = async () => {
-    if (needsPass.get() && password.get().trim() == "") {
+    if (needsPass() && password().trim() == "") {
       setState(ConnectingState.FAILED);
       return;
     }
 
     try {
       setState(ConnectingState.CONNECTING);
-      await ap.activate(needsPass.get() ? password.get().trim() : null);
+      await ap.activate(needsPass() ? password().trim() : null);
 
       setState(ConnectingState.PASSWORD_INPUT);
       setPassword("");
@@ -41,7 +41,7 @@ export const WifiAPConnect = ({ ap, close: _close }: Props) => {
       setState(ConnectingState.FAILED);
     }
   };
-  const close = () => notConnecting.get() && _close();
+  const close = () => notConnecting() && _close();
 
   return (
     <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>

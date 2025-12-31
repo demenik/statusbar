@@ -20,17 +20,15 @@ export const BatteryPopup = ({ battery }: Props) => {
   const rate = createBinding(battery, "energy_rate").as((rate) =>
     Math.abs(rate).toFixed(1),
   );
-  const chargingLabel = createComputed((get) =>
-    get(charging)
-      ? `Charging with ${get(rate)}W`
-      : `Discharging with ${get(rate)}W`,
+  const chargingLabel = createComputed(() =>
+    charging() ? `Charging with ${rate()}W` : `Discharging with ${rate()}W`,
   );
   const timeToFull = createBinding(battery, "timeToFull");
   const timeToEmpty = createBinding(battery, "timeToEmpty");
-  const timeLabel = createComputed((get) =>
-    get(charging)
-      ? `${formatSecDefaultPadding(get(timeToFull))} for full charge`
-      : `${formatSecDefaultPadding(get(timeToEmpty))} left`,
+  const timeLabel = createComputed(() =>
+    charging()
+      ? `${formatSecDefaultPadding(timeToFull()} for full charge`
+      : `${formatSecDefaultPadding(timeToEmpty())} left`,
   );
 
   const profilesAc = Object.entries({

@@ -15,7 +15,7 @@ export const AudioWave = ({
   const values = createBinding(cava, "values");
 
   const draw: Gtk.DrawingAreaDrawFunc = (_, cr, width, height) => {
-    const vals = values.get();
+    const vals = values();
 
     if (!vals || vals.length === 0) return;
 
@@ -67,7 +67,7 @@ export const AudioWave = ({
         let unsubscribe: (() => void) | null;
         self.connect("realize", () => {
           unsubscribe = values.subscribe(() => {
-            const newValues = values.get();
+            const newValues = values();
             if (!newValues || newValues.length === 0) return;
             self.queue_draw();
           });

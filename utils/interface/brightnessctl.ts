@@ -33,7 +33,7 @@ export const createBrightness = ({
 
   percent.subscribe(() => {
     execAsync(
-      `brightnessctl -${filter} set ${(percent.get() * 100).toFixed(0)}%`,
+      `brightnessctl -${filter} set ${(percent() * 100).toFixed(0)}%`,
     ).catch((e) => console.error(e));
   });
 

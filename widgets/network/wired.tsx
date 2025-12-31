@@ -14,7 +14,7 @@ export const WiredSettings = ({ wired }: Props) => {
   const speed = createBinding(wired, "speed").as(
     (speed) => `${speed.toFixed(0)}Mbit/s`,
   );
-  const stateLabel = createComputed((get) => `${get(state)}, ${get(speed)}`);
+  const stateLabel = createComputed(() => `${state()}, ${speed()}`);
 
   const internet = createBinding(wired, "internet");
   const internetIcon = internet.as(getInternetIcon);

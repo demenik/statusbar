@@ -3,7 +3,6 @@ import Wp from "gi://AstalWp?version=0.1";
 import { createBinding, With } from "ags";
 import { createDropDown } from "../../utils/createDropdown";
 import { VolumeSliderEndpoint } from "./slider";
-import { constantAccessor, flattenAccessor } from "../../utils/accessor";
 import { createBrightness } from "../../utils/interface/brightnessctl";
 
 type Props = {
@@ -12,9 +11,7 @@ type Props = {
 
 export const SpeakerSettings = ({ audio }: Props) => {
   const speakers = createBinding(audio, "speakers");
-  const current = speakers.as((speakers) =>
-    speakers.find((value) => value.isDefault),
-  );
+  const current = createBinding(audio, "defaultSpeaker");
 
   const dropdown = createDropDown<Wp.Endpoint>({
     entries: speakers.as((speakers) =>
@@ -27,17 +24,13 @@ export const SpeakerSettings = ({ audio }: Props) => {
     onChange: (selected) => selected.value.set_is_default(true),
   });
 
-  const isMuted = flattenAccessor(
-    current.as((current) =>
-      current ? createBinding(current, "mute") : constantAccessor(false),
-    ),
-  );
+  const isMuted = createBinding(audio, "defaultSpeaker", "mute");
   const [_, setMuteBrightness] = createBrightness({
     device: "platform::mute",
   });
 
   isMuted.subscribe(() => {
-    if (isMuted.get()) {
+    if (isMuted()) {
       setMuteBrightness(1);
     } else {
       setMuteBrightness(0);

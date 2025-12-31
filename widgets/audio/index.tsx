@@ -4,20 +4,12 @@ import { Accessor, createBinding, With } from "ags";
 import { MicrophoneSettings } from "./microphone";
 import { SpeakerSettings } from "./speaker";
 import { HSeparator } from "../separator";
-import { createOptionalBinding, flattenAccessor } from "../../utils/accessor";
 import { AppRouting } from "./routing";
 
 export const AudioSettings = () => {
   const { audio } = Wp.get_default();
 
-  const speakers = createBinding(audio, "speakers");
-  const current = speakers.as((speakers) =>
-    speakers.find((value) => value.isDefault),
-  );
-  const icon = flattenAccessor(
-    current.as((current) => createOptionalBinding(current, "volumeIcon")),
-  ).as((icon) => icon ?? "");
-
+  const icon = createBinding(audio, "defaultSpeaker", "volume_icon");
   const hasStreams = createBinding(audio, "streams").as(
     (streams) => streams.length > 0,
   );

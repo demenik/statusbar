@@ -9,26 +9,26 @@ type Props = {
 export const MusicPopupControls = ({ player }: Props) => {
   const positionSec = createBinding(player, "position");
   const lengthSec = createBinding(player, "length");
-  const progress = createComputed((get) => get(positionSec) / get(lengthSec));
+  const progress = createComputed(() => positionSec() / lengthSec());
 
   const needHours = lengthSec.as((len) => len >= 3600);
   const needMinPad = lengthSec.as((len) => len >= 600);
-  const position = createComputed((get) =>
-    formatSec(get(positionSec), get(needMinPad), get(needHours)),
+  const position = createComputed(() =>
+    formatSec(positionSec(), needMinPad(), needHours()),
   );
-  const length = createComputed((get) =>
-    formatSec(get(lengthSec), get(needMinPad), get(needHours)),
+  const length = createComputed(() =>
+    formatSec(lengthSec(), needMinPad(), needHours()),
   );
 
   const onSeek = (percent: number) => {
-    const position = percent * lengthSec.get();
+    const position = percent * lengthSec();
     player.set_position(position);
   };
 
   const shuffle = createBinding(player, "shuffleStatus");
   const toggleShuffle = () =>
     player.set_shuffle_status(
-      shuffle.get() == Mpris.Shuffle.OFF ? Mpris.Shuffle.ON : Mpris.Shuffle.OFF,
+      shuffle() == Mpris.Shuffle.OFF ? Mpris.Shuffle.ON : Mpris.Shuffle.OFF,
     );
 
   const playPauseIcon = createBinding(player, "playbackStatus").as((status) =>
@@ -99,7 +99,7 @@ const LoopButton = ({ player }: Props) => {
   );
 
   const toggleLoop = () => {
-    switch (loop.get()) {
+    switch (loop()) {
       case Mpris.Loop.NONE:
         player.set_loop_status(Mpris.Loop.PLAYLIST);
         break;

@@ -19,10 +19,10 @@ export const Player = ({ player, nextPlayer, prevPlayer, hasOther }: Props) => {
 
   const artist = createBinding(player, "artist");
   const title = createBinding(player, "title");
-  const label = createComputed((get) => {
+  const label = createComputed(() => {
     let result = "";
-    let a = get(artist);
-    let t = get(title);
+    let a = artist();
+    let t = title();
 
     if (a.trim() !== "") result += a;
     if (t.trim() !== "") {

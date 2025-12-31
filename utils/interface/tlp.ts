@@ -63,7 +63,7 @@ const readConfig = Object.fromEntries(
 export const [tlpConfig, setTlpConfig] = createState<TlpConfig>(readConfig);
 
 tlpConfig.subscribe(() => {
-  const output = Object.entries(tlpConfig.get())
+  const output = Object.entries(tlpConfig())
     .map(([key, value]) => {
       if (typeof value === "string") return `${key}="${value}"`;
       else if (typeof value === "number") return `${key}=${value}`;

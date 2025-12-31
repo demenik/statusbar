@@ -51,7 +51,7 @@ export const MarqueeLabel = ({
 
     const pangoCtx = label.get_pango_context();
     const layout = Pango.Layout.new(pangoCtx);
-    layout.set_text(isAccessor(text) ? text.get() : text, -1);
+    layout.set_text(isAccessor(text) ? text() : text, -1);
     const [labelWidth, labelHeight] = layout.get_pixel_size();
     const containerWidth = container.get_preferred_size()[0]?.width ?? -1;
 

@@ -6,11 +6,9 @@ import { PlayerControls } from "./controls";
 const createPlayersBinding = (mpris: Mpris.Mpris) => {
   const _players = createBinding(mpris, "players");
   const [players, setPlayers] = createState<Mpris.Player[]>(
-    _players
-      .get()
-      .filter(
-        (player) => player.playbackStatus !== Mpris.PlaybackStatus.STOPPED,
-      ),
+    _players().filter(
+      (player) => player.playbackStatus !== Mpris.PlaybackStatus.STOPPED,
+    ),
   );
 
   let disposeFuncs: (() => void)[] = [];
@@ -18,14 +16,12 @@ const createPlayersBinding = (mpris: Mpris.Mpris) => {
     disposeFuncs.forEach((dispose) => dispose());
 
     setPlayers(
-      _players
-        .get()
-        .filter(
-          (player) => player.playbackStatus !== Mpris.PlaybackStatus.STOPPED,
-        ),
+      _players().filter(
+        (player) => player.playbackStatus !== Mpris.PlaybackStatus.STOPPED,
+      ),
     );
 
-    disposeFuncs = _players.get().map((player) =>
+    disposeFuncs = _players().map((player) =>
       createBinding(player, "playbackStatus").subscribe(() => {
         if (player.playbackStatus === Mpris.PlaybackStatus.STOPPED) {
           setPlayers((players) =>
@@ -53,9 +49,9 @@ export const Music = () => {
   );
 
   const [index, setIndex] = createState(0);
-  const player = createComputed((get) => {
-    const _players = get(players);
-    const _index = get(index);
+  const player = createComputed(() => {
+    const _players = players();
+    const _index = index();
 
     if (_players.length === 0) return null;
     if (_index >= _players.length) return _players[_players.length - 1];
@@ -63,12 +59,12 @@ export const Music = () => {
   });
 
   const nextPlayer = () => {
-    if (index.get() >= players.get().length - 1) setIndex(0);
-    else setIndex(index.get() + 1);
+    if (index() >= players().length - 1) setIndex(0);
+    else setIndex(index() + 1);
   };
   const prevPlayer = () => {
-    if (index.get() <= 0) setIndex(players.get().length - 1);
-    else setIndex(index.get() - 1);
+    if (index() <= 0) setIndex(players().length - 1);
+    else setIndex(index() - 1);
   };
   const hasOther = players.as((players) => players.length > 1);
 

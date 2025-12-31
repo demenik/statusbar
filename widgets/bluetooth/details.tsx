@@ -17,15 +17,15 @@ export const BTDeviceDetails = ({ device }: Props) => {
     "view",
   );
   const toggleEditing = () => {
-    if (editingState.get() === "view") {
-      setEdit(alias.get());
+    if (editingState() === "view") {
+      setEdit(alias());
 
       setEditingState("editing");
     } else {
       setEditingState("view");
 
-      let current = edit.get();
-      if (current.trim() === "") current = name.get();
+      let current = edit();
+      if (current.trim() === "") current = name();
       device.set_alias(current);
     }
   };
