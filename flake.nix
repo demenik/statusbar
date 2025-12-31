@@ -41,7 +41,7 @@
               mkNoPasswdRule = groups: commands: {
                 inherit groups;
                 commands =
-                  builtins.map (command: {
+                  map (command: {
                     inherit command;
                     options = ["SETENV" "NOPASSWD"];
                   })
