@@ -27,7 +27,7 @@ export const BatteryPopup = ({ battery }: Props) => {
   const timeToEmpty = createBinding(battery, "timeToEmpty");
   const timeLabel = createComputed(() =>
     charging()
-      ? `${formatSecDefaultPadding(timeToFull()} for full charge`
+      ? `${formatSecDefaultPadding(timeToFull())} for full charge`
       : `${formatSecDefaultPadding(timeToEmpty())} left`,
   );
 
