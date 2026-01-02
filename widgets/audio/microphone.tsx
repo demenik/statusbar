@@ -35,10 +35,12 @@ export const MicrophoneSettings = ({ audio }: Props) => {
   });
 
   isMuted.subscribe(() => {
-    if (isMuted()) {
-      setMuteBrightness(1);
-    } else {
-      setMuteBrightness(0);
+    if (setMuteBrightness) {
+      if (isMuted()) {
+        setMuteBrightness(1);
+      } else {
+        setMuteBrightness(0);
+      }
     }
   });
 
