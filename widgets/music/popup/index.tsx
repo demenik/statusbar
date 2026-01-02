@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import Mpris from "gi://AstalMpris?version=0.1";
-import { Accessor, createBinding, With } from "ags";
+import { Accessor, createBinding } from "ags";
 import { getAppIcon } from "../../../utils/icons";
 import { MarqueeLabel } from "../../marquee";
 import { MusicPopupControls } from "./controls";
@@ -45,18 +45,13 @@ export const PlayerPopup = ({
       widthRequest={250}
     >
       <box spacing={4} halign={Gtk.Align.CENTER}>
-        <With value={hasOther}>
-          {(value) =>
-            value && (
-              <button
-                class="invisible small"
-                css="padding: 4px 8px;"
-                iconName="pan-start-symbolic"
-                onClicked={prevPlayer}
-              />
-            )
-          }
-        </With>
+        <button
+          visible={hasOther}
+          class="invisible small"
+          css="padding: 4px 8px;"
+          iconName="pan-start-symbolic"
+          onClicked={prevPlayer}
+        />
 
         <image
           iconName={playerIcon}
@@ -69,33 +64,23 @@ export const PlayerPopup = ({
           css="font-weight: 500; font-size: 14px;"
         />
 
-        <With value={hasOther}>
-          {(value) =>
-            value && (
-              <button
-                class="invisible small"
-                css="padding: 4px 8px;"
-                iconName="pan-end-symbolic"
-                onClicked={nextPlayer}
-              />
-            )
-          }
-        </With>
+        <button
+          visible={hasOther}
+          class="invisible small"
+          css="padding: 4px 8px;"
+          iconName="pan-end-symbolic"
+          onClicked={nextPlayer}
+        />
       </box>
 
       <box hexpand={true} halign={Gtk.Align.CENTER}>
-        <With value={artUrl}>
-          {(value) =>
-            value && (
-              <image
-                class="popup-cover-art rounded"
-                overflow={Gtk.Overflow.HIDDEN}
-                file={artUrl}
-                pixelSize={250}
-              />
-            )
-          }
-        </With>
+        <image
+          visible={artUrl.as((u) => !!u)}
+          class="popup-cover-art rounded"
+          overflow={Gtk.Overflow.HIDDEN}
+          file={artUrl}
+          pixelSize={250}
+        />
       </box>
 
       <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
