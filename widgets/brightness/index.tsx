@@ -7,13 +7,13 @@ import { HSeparator } from "../separator";
 export const BrightnessSettings = () => {
   const [percent, setPercent] = createBrightness({ class: "backlight" });
   if (percent === null) {
-    return null;
+    return <></>;
   }
   const icon = percent.as(getBrightnessIcon);
 
   const [kbd, setKbd] = createBrightness({ device: "tpacpi::kbd_backlight" });
   if (kbd === null) {
-    return null;
+    return <></>;
   }
   const kbdOff = kbd.as((value) => value === 0);
   const kbdLow = kbd.as((value) => value === 0.5);
