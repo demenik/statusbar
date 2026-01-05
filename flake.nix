@@ -37,6 +37,8 @@
               tlp.enable = true;
             };
 
+            hardware.bluetooth.enable = true;
+
             security.sudo-rs.extraRules = let
               mkNoPasswdRule = groups: commands: {
                 inherit groups;
