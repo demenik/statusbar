@@ -77,7 +77,7 @@ app.start({
       let mainMonitorIndex = 0;
       for (const name of PREFERRED_MONITORS) {
         const index = monitors.findIndex((m) => m.connector === name);
-        if (index) {
+        if (index > 0) {
           mainMonitorIndex = index;
           console.log(`Found preferred monitor: ${name}`);
           break;
