@@ -7,6 +7,9 @@ import { timeout, Timer } from "ags/time";
 
 export const Bluetooth = () => {
   const bluetooth = AstalBluetooth.get_default();
+  if (!bluetooth || !bluetooth.adapter) {
+    return <></>;
+  }
 
   const isPowered = createBinding(bluetooth, "isPowered");
   const isConnected = createBinding(bluetooth, "isConnected");
