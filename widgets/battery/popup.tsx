@@ -31,26 +31,26 @@ export const BatteryPopup = ({ battery }: Props) => {
       : `${formatSecDefaultPadding(timeToEmpty())} left`,
   );
 
-  const profilesAc = Object.entries({
-    PLATFORM_PROFILE_ON_AC: platformProfiles,
-    RADEON_DPM_STATE_ON_AC: radeonDpmStates,
-    CPU_SCALING_GOVERNOR_ON_AC: cpuScalingGovernors,
-    CPU_BOOST_ON_AC: [1, 0],
-  } as const);
-  const profilesBat = Object.entries({
-    PLATFORM_PROFILE_ON_BAT: platformProfiles,
-    RADEON_DPM_STATE_ON_BAT: radeonDpmStates,
-    CPU_SCALING_GOVERNOR_ON_BAT: cpuScalingGovernors,
-    CPU_BOOST_ON_BAT: [1, 0],
-  } as const);
+  // const profilesAc = Object.entries({
+  //   PLATFORM_PROFILE_ON_AC: platformProfiles,
+  //   RADEON_DPM_STATE_ON_AC: radeonDpmStates,
+  //   CPU_SCALING_GOVERNOR_ON_AC: cpuScalingGovernors,
+  //   CPU_BOOST_ON_AC: [1, 0],
+  // } as const);
+  // const profilesBat = Object.entries({
+  //   PLATFORM_PROFILE_ON_BAT: platformProfiles,
+  //   RADEON_DPM_STATE_ON_BAT: radeonDpmStates,
+  //   CPU_SCALING_GOVERNOR_ON_BAT: cpuScalingGovernors,
+  //   CPU_BOOST_ON_BAT: [1, 0],
+  // } as const);
 
-  const getProfileLabel = (key: string) => {
-    if (key.startsWith("PLATFORM_PROFILE")) return "Platform profile";
-    else if (key.startsWith("RADEON_DPM_STATE")) return "Radeon DPM state";
-    else if (key.startsWith("CPU_SCALING_GOVERNOR"))
-      return "CPU scaling governor";
-    else if (key.startsWith("CPU_BOOST")) return "CPU Boost";
-  };
+  // const getProfileLabel = (key: string) => {
+  //   if (key.startsWith("PLATFORM_PROFILE")) return "Platform profile";
+  //   else if (key.startsWith("RADEON_DPM_STATE")) return "Radeon DPM state";
+  //   else if (key.startsWith("CPU_SCALING_GOVERNOR"))
+  //     return "CPU scaling governor";
+  //   else if (key.startsWith("CPU_BOOST")) return "CPU Boost";
+  // };
 
   // TODO: grid
 
@@ -65,7 +65,7 @@ export const BatteryPopup = ({ battery }: Props) => {
         <label label={chargingLabel} />
       </box>
       <label label={timeLabel} halign={Gtk.Align.START} />
-      <HSeparator />
+      {/*<HSeparator />
       <box spacing={4}>
         <image
           iconName="power-profile-performance-symbolic"
@@ -98,7 +98,7 @@ export const BatteryPopup = ({ battery }: Props) => {
             />
           ))}
         </box>
-      </box>
+      </box>*/}
     </box>
   );
 };

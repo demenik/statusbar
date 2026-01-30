@@ -1,6 +1,7 @@
 import { Gtk } from "ags/gtk4";
 import AstalBattery from "gi://AstalBattery";
 import { createBinding, createComputed, With } from "ags";
+import { BatteryPopup } from "./popup";
 
 export const Battery = () => {
   const battery = AstalBattery.get_default();
@@ -19,7 +20,7 @@ export const Battery = () => {
         <With value={label}>{(value) => value && <label label={value} />}</With>
       </box>
       <popover hasArrow={false}>
-        {/*<BatteryPopup battery={battery} />*/}
+        <BatteryPopup battery={battery} />
       </popover>
     </menubutton>
   );
