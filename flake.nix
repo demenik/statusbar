@@ -141,6 +141,10 @@
           wrapProgram $out/bin/${name} \
             --prefix PATH : ${lib.makeBinPath [brightnessctl bash]}
         '';
+
+        meta = {
+          mainProgram = "statusbar";
+        };
       };
 
       apps.default = flake-utils.lib.mkApp {
