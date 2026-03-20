@@ -1,4 +1,3 @@
-import app from "ags/gtk4/app";
 import { exec } from "ags/process";
 
 const appIcons: Record<string, string> = {
