@@ -29,6 +29,18 @@
               self.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
 
+            systemd.user.services.statusbar = {
+              enable = true;
+              description = "Statusbar";
+              wantedBy = ["graphical-session.target"];
+              partOf = ["graphical-session.target"];
+
+              serviceConfig = {
+                ExecStart = "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.default}";
+                Restart = "on-failure";
+              };
+            };
+
             services = {
               # required for mpris cover art
               gvfs.enable = true;
